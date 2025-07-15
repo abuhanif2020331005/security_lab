@@ -1,3 +1,4 @@
+
 from collections import Counter
 import re
 
@@ -5,14 +6,20 @@ import re
 ENGLISH_FREQ = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D', 'L', 'C', 'U', 'M', 'W', 'F', 'G', 'Y', 'P', 'B', 'V', 'K', 'J', 'X', 'Q', 'Z']
 
 def analyze_and_decrypt(cipher_text, cipher_name, manual_adjustments=None):
+    print(f"\n{'='*50}")
+    print(f"ANALYZING {cipher_name}")
+    print('='*50)
     
-
     # Clean text and count frequencies
     clean_text = re.sub(r'[^a-zA-Z]', '', cipher_text.upper())
     freq_count = Counter(clean_text)
     total = len(clean_text)
     
-  
+    # Show frequency analysis
+    print(f"Text length: {total} letters")
+    print("\nFREQUENCY ANALYSIS:")
+    print("Cipher Letter → Frequency → Percentage")
+    print("-" * 40)
     
     cipher_sorted = sorted(freq_count.items(), key=lambda x: x[1], reverse=True)
     for letter, count in cipher_sorted:
@@ -20,13 +27,19 @@ def analyze_and_decrypt(cipher_text, cipher_name, manual_adjustments=None):
         print(f"    {letter}       →    {count:3d}    →   {percent:5.1f}%")
     
     # Create initial substitution key
-    cipher_sorted
     key = {}
     for i, (cipher_letter, _) in enumerate(cipher_sorted):
         if i < len(ENGLISH_FREQ):
             key[cipher_letter] = ENGLISH_FREQ[i]
     
-   
+    # Apply manual adjustments if provided
+    if manual_adjustments:
+        print(f"\nMANUAL ADJUSTMENTS APPLIED:")
+        print("Cipher → Plain")
+        print("-" * 15)
+        for cipher_char, plain_char in manual_adjustments.items():
+            print(f"   {cipher_char}   →   {plain_char}")
+            key[cipher_char] = plain_char
     
     # Apply substitution
     decrypted = ""
@@ -72,7 +85,7 @@ wvvmwqbuh wuz zbawvvmwqbuh wj izz bujmqywxa. wuz bj gwa w xbjjxm niix, reaj w xb
 bj ammfmz ji amxziu jowj jom niix zwda nwfm w xbjjxm fiqm kqmtemujxd jowu jomd eamz ji. 
 gwa jqwujiq awybuh mumqhd? gwa bj bunqmwabuh bumkkbnbmund? iq (wuz om anigxmz 
 bugwqzxd wa om joiehoj bj) gwa om hmjjbuh ixz wuz gwa oba cxiiz hmjjbuh jobu? om vxwnmz 
-oba owuza bu """
+oba owuza bu solve it"""
 
 # Manual adjustments for Cipher-1
 # Based on pattern analysis: "skd" appears often (likely "the")
@@ -108,32 +121,18 @@ adjustments1 = {
 # Manual adjustments for Cipher-2
 # Based on pattern analysis: "jom" appears often (likely "the")
 adjustments2 = {
-    'J': 'T',  # jom -> the
-    'O': 'H',  # jom -> the
-    'M': 'E',  # jom -> the
-    'W': 'A',  # common vowel
-    'U': 'N',  # common consonant
-    'Z': 'D',  # common consonant
-    'I': 'O',  # vowel
-    'K': 'F',  # consonant
-    'G': 'W',  # consonant
-    'B': 'I',  # vowel
-    'A': 'S',  # common consonant
-    'Q': 'R',  # common consonant
-    'E': 'U',  # vowel
-    'X': 'L',  # common consonant
-    'N': 'C',  # consonant
-    'V': 'P',  # consonant
-    'C': 'B',  # consonant
-    'Y': 'V',  # less common
-    'L': 'K',  # less common
-    'F': 'M',  # consonant
-    'D': 'Y',  # consonant
-    'R': 'J',  # less common
-    'T': 'Q',  # rare
-    'H': 'G',  # less common
-    'S': 'X',  # rare
-    'P': 'Z'   # very rare
+    'J': 'T', 'O': 'H', 'M': 'E',   # Common "JOM" -> "THE"
+    'W': 'A', 'U': 'N', 'Z': 'D',   # Common patterns
+    'I': 'O', 'K': 'F',             # Frequency analysis 
+    'G': 'W', 'B': 'I',             # More substitutions
+    'A': 'S', 'Q': 'R',             # Continuing
+    'E': 'U', 'X': 'L',             # Additional mappings
+    'N': 'C', 'V': 'P',             # More letters
+    'C': 'B', 'Y': 'V',             # Further refinement
+    'L': 'K', 'F': 'M',             # Completing the key
+    'D': 'Y', 'R': 'J',             # Final adjustments
+    'T': 'Q', 'H': 'G',             # Remaining letters
+    'S': 'X', 'P': 'Z'              # Last mappings
 }
 
 # Analyze both ciphers with manual adjustments
