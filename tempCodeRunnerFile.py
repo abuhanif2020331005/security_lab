@@ -5,15 +5,22 @@ import re
 # English letter frequencies
 ENGLISH_FREQ = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D', 'L', 'C', 'U', 'M', 'W', 'F', 'G', 'Y', 'P', 'B', 'V', 'K', 'J', 'X', 'Q', 'Z']
 
-def analyze_and_decrypt(cipher_text, manual_adjustments=None):
-
+def analyze_and_decrypt(cipher_text, cipher_name, manual_adjustments=None):
+    print(f"\n{'='*50}")
+    print(f"ANALYZING {cipher_name}")
+    print('='*50)
     
-    
+    # Clean text and count frequencies
     clean_text = re.sub(r'[^a-zA-Z]', '', cipher_text.upper())
     freq_count = Counter(clean_text)
     total = len(clean_text)
     
-  
+    # Show frequency analysis
+    print(f"Text length: {total} letters")
+    print("\nFREQUENCY ANALYSIS:")
+    print("Cipher Letter → Frequency → Percentage")
+    print("-" * 40)
+    
     cipher_sorted = sorted(freq_count.items(), key=lambda x: x[1], reverse=True)
     for letter, count in cipher_sorted:
         percent = (count/total) * 100
@@ -22,13 +29,16 @@ def analyze_and_decrypt(cipher_text, manual_adjustments=None):
     # Create initial substitution key
     key = {}
     for i, (cipher_letter, _) in enumerate(cipher_sorted):
-        
+        if i < len(ENGLISH_FREQ):
             key[cipher_letter] = ENGLISH_FREQ[i]
     
     # Apply manual adjustments if provided
     if manual_adjustments:
-       
+        print(f"\nMANUAL ADJUSTMENTS APPLIED:")
+        print("Cipher → Plain")
+        print("-" * 15)
         for cipher_char, plain_char in manual_adjustments.items():
+            print(f"   {cipher_char}   →   {plain_char}")
             key[cipher_char] = plain_char
     
     # Apply substitution
@@ -126,5 +136,17 @@ adjustments2 = {
 }
 
 # Analyze both ciphers with manual adjustments
-length1 = analyze_and_decrypt(cipher1, adjustments1)
-length2 = analyze_and_decrypt(cipher2, adjustments2)
+length1 = analyze_and_decrypt(cipher1, "CIPHER-1", adjustments1)
+length2 = analyze_and_decrypt(cipher2, "CIPHER-2", adjustments2)
+
+# Summary
+print(f"\n{'='*50}")
+print("SUMMARY")
+print('='*50)
+print(f"Cipher-1 length: {length1} letters")
+print(f"Cipher-2 length: {length2} letters")
+print(f"\nCipher-2 was easier to break because:")
+print(f"• Much longer text ({length2} vs {length1} letters)")
+print(f"• Better statistical sample for frequency analysis")
+print(f"• More context clues for verification")
+print(f"• Manual adjustments were more effective with more data")

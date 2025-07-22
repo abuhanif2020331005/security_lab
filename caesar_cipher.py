@@ -9,7 +9,7 @@ def decrytp_cipher(ciphertext,shift):
                result+=char
      return result    
 
-cipher ="odroboewscdrolocdcwkbdmyxdbkmdzvkdpybwyeddrobo"
+cipher ="zljbypafhukwypchjfptwvzljvuayhkpjavyfylxbpyltluazavmbsmps"
 for shift in range(26):
      print(f"Shift {shift}: {decrytp_cipher(cipher, shift)}")
                    
