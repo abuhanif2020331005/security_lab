@@ -7,10 +7,16 @@ def findP(n):
     return 1
 def text_number(text):
     return [ord(c)-ord('a')+1 for c in text]
+def numbers_to_text(numbers):
+    return ''.join([chr(n + ord('a') - 1) for n in numbers])
 def encrypt(text,e,n):
     num=text_number(text)
     return [pow(m,e,n) for m in num]
+def rsa_decrypt_message(cipher, d, n):
+    decrypted_nums = [pow(c, d, n) for c in cipher]
+    return numbers_to_text(decrypted_nums)
 
+    
 
 # Given values
 n = 670726081
@@ -25,4 +31,5 @@ try:
     print(f"Public key exponent e = {e}")
 except ValueError:
     print("Modular inverse does not exist.")
-print(encrypt(text,e,n))
+m=encrypt(text,e,n)
+print(rsa_decrypt_message(m,d,n))
